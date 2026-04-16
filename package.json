@@ -1,0 +1,15 @@
+{
+  "name": "click-to-component-chrome-extension",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "dependencies": {
+    "@jridgewell/trace-mapping": "^0.3.31"
+  }
+}

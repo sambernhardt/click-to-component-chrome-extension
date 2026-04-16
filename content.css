@@ -1,0 +1,385 @@
+/* ── Crosshair cursor when active ────────────────────────────────────────── */
+
+[data-ctc],
+[data-ctc] * {
+  cursor: crosshair !important;
+}
+
+/* Restore normal cursors inside the popover */
+#__ctc-popover,
+#__ctc-popover * {
+  cursor: auto !important;
+}
+#__ctc-popover .__ctc-item {
+  cursor: pointer !important;
+}
+#__ctc-popover .__ctc-item--no-source {
+  cursor: default !important;
+}
+#__ctc-popover .__ctc-close {
+  cursor: pointer !important;
+}
+
+/* ── Hover highlight box ─────────────────────────────────────────────────── */
+
+#__ctc-highlight {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2147483645;
+  outline: 2px solid #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 2px;
+  display: none;
+}
+
+/* Selected state — element was clicked, popover is open */
+#__ctc-highlight[data-selected] {
+  outline: 2px solid #6366f1;
+  background: rgba(99, 102, 241, 0.18);
+}
+
+/* Component name label above the box */
+#__ctc-highlight::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -24px;
+  left: -1px;
+  background: #6366f1;
+  color: #fff;
+  font: 600 11px/1 ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+  padding: 3px 7px;
+  border-radius: 3px 3px 3px 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Stack hover secondary highlight ────────────────────────────────────── */
+
+#__ctc-secondary-highlight {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2147483644;
+  outline: 2px dashed #89dceb;
+  background: rgba(137, 220, 235, 0.08);
+  border-radius: 2px;
+  display: none;
+}
+
+/* ── Popover ─────────────────────────────────────────────────────────────── */
+
+:root {
+  --ctc-popover-bg: #1e1e2e;
+  --ctc-popover-fg: #cdd6f4;
+  --ctc-popover-border: #45475a;
+  --ctc-popover-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --ctc-header-bg: #181825;
+  --ctc-header-border: #313244;
+  --ctc-header-fg: #585b70;
+  --ctc-toggle-fg: #a6adc8;
+  --ctc-accent: #89b4fa;
+  --ctc-hover-bg: #313244;
+  --ctc-name-fg: #89b4fa;
+  --ctc-path-fg: #a6adc8;
+  --ctc-path-hover-fg: #cdd6f4;
+  --ctc-host-name-fg: #a6e3a1;
+  --ctc-host-path-fg: #94e2d5;
+  --ctc-empty-fg: #585b70;
+  --ctc-footer-bg: #181825;
+  --ctc-footer-border: #313244;
+  --ctc-footer-action-fg: #a6adc8;
+  --ctc-footer-path-fg: #cdd6f4;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --ctc-popover-bg: #ffffff;
+    --ctc-popover-fg: #111827;
+    --ctc-popover-border: #d1d5db;
+    --ctc-popover-shadow: 0 12px 32px rgba(15, 23, 42, 0.18), 0 2px 8px rgba(15, 23, 42, 0.08);
+    --ctc-header-bg: #f8fafc;
+    --ctc-header-border: #e5e7eb;
+    --ctc-header-fg: #6b7280;
+    --ctc-toggle-fg: #4b5563;
+    --ctc-accent: #2563eb;
+    --ctc-hover-bg: #f3f4f6;
+    --ctc-name-fg: #1d4ed8;
+    --ctc-path-fg: #4b5563;
+    --ctc-path-hover-fg: #111827;
+    --ctc-host-name-fg: #047857;
+    --ctc-host-path-fg: #0f766e;
+    --ctc-empty-fg: #6b7280;
+    --ctc-footer-bg: #f8fafc;
+    --ctc-footer-border: #e5e7eb;
+    --ctc-footer-action-fg: #4b5563;
+    --ctc-footer-path-fg: #111827;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ctc-popover-bg: #1e1e2e;
+    --ctc-popover-fg: #cdd6f4;
+    --ctc-popover-border: #45475a;
+    --ctc-popover-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+    --ctc-header-bg: #181825;
+    --ctc-header-border: #313244;
+    --ctc-header-fg: #585b70;
+    --ctc-toggle-fg: #a6adc8;
+    --ctc-accent: #89b4fa;
+    --ctc-hover-bg: #313244;
+    --ctc-name-fg: #89b4fa;
+    --ctc-path-fg: #a6adc8;
+    --ctc-path-hover-fg: #cdd6f4;
+    --ctc-host-name-fg: #a6e3a1;
+    --ctc-host-path-fg: #94e2d5;
+    --ctc-empty-fg: #585b70;
+    --ctc-footer-bg: #181825;
+    --ctc-footer-border: #313244;
+    --ctc-footer-action-fg: #a6adc8;
+    --ctc-footer-path-fg: #cdd6f4;
+  }
+}
+
+#__ctc-popover {
+  position: fixed;
+  z-index: 2147483646;
+  min-width: 280px;
+  max-width: 720px;
+  background: var(--ctc-popover-bg);
+  color: var(--ctc-popover-fg);
+  border: 1px solid var(--ctc-popover-border);
+  border-radius: 8px;
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  box-shadow: var(--ctc-popover-shadow);
+  overflow: hidden;
+}
+
+.__ctc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: var(--ctc-header-bg);
+  border-bottom: 1px solid var(--ctc-header-border);
+  font: 600 10px/1 ui-sans-serif, system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ctc-header-fg);
+}
+
+.__ctc-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.__ctc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 10px/1 ui-sans-serif, system-ui, sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ctc-toggle-fg);
+  cursor: pointer;
+  user-select: none;
+}
+
+.__ctc-toggle input {
+  margin: 0;
+  accent-color: var(--ctc-accent);
+}
+
+.__ctc-close {
+  all: unset;
+  cursor: pointer;
+  color: var(--ctc-header-fg);
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.__ctc-close:hover {
+  color: var(--ctc-popover-fg);
+  background: var(--ctc-hover-bg);
+}
+
+.__ctc-stack {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.__ctc-row {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.__ctc-row:hover .__ctc-item,
+.__ctc-row:hover .__ctc-usage-link,
+.__ctc-row--selected .__ctc-item,
+.__ctc-row--selected .__ctc-usage-link {
+  background: var(--ctc-hover-bg);
+}
+
+.__ctc-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 10px;
+  /* No right padding — path column should sit flush against the usage slot */
+  padding: 6px 0 6px 14px;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.__ctc-item,
+.__ctc-item:hover,
+.__ctc-item:focus,
+.__ctc-item:visited,
+.__ctc-item:active,
+.__ctc-item * {
+  text-decoration: none;
+}
+
+.__ctc-name {
+  font: 500 13px/1 ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+  color: var(--ctc-name-fg);
+  white-space: nowrap;
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: calc(var(--ctc-depth, 0) * 10px);
+}
+
+.__ctc-path {
+  font: 11px/1 ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+  color: var(--ctc-path-fg);
+  white-space: nowrap;
+  /* Grow to fill space between name and usage slot; 0% basis = width tracks free space, not content */
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  text-align: right;
+}
+
+.__ctc-row:hover .__ctc-path {
+  color: var(--ctc-path-hover-fg);
+}
+
+.__ctc-item--no-source {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.__ctc-item--host {
+  border-bottom: 1px solid var(--ctc-header-border);
+}
+
+.__ctc-item--host .__ctc-name {
+  color: var(--ctc-host-name-fg);
+}
+
+.__ctc-item--host .__ctc-path {
+  color: var(--ctc-host-path-fg);
+}
+
+.__ctc-item--host:hover .__ctc-name {
+  color: var(--ctc-host-name-fg);
+}
+
+.__ctc-item--selected .__ctc-name {
+  color: var(--ctc-popover-fg);
+}
+
+.__ctc-item--selected .__ctc-path {
+  color: var(--ctc-popover-fg);
+}
+
+.__ctc-usage-slot {
+  flex: 0 0 38px;
+  width: 38px;
+  min-width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.__ctc-usage-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  border-radius: 4px;
+  color: var(--ctc-accent);
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.__ctc-usage-link,
+.__ctc-usage-link:hover,
+.__ctc-usage-link:focus,
+.__ctc-usage-link:visited,
+.__ctc-usage-link:active {
+  text-decoration: none;
+}
+
+.__ctc-usage-link:hover {
+  color: var(--ctc-popover-fg);
+  opacity: 1;
+}
+
+.__ctc-usage-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.__ctc-empty {
+  padding: 16px 14px;
+  font-size: 12px;
+  color: var(--ctc-empty-fg);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.__ctc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: var(--ctc-footer-bg);
+  border-top: 1px solid var(--ctc-footer-border);
+  font: 11px/1.3 ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+}
+
+.__ctc-footer-action {
+  color: var(--ctc-footer-action-fg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.__ctc-footer-path {
+  color: var(--ctc-footer-path-fg);
+  min-width: 0;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

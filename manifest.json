@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Click to Component",
+  "version": "0.1.0",
+  "description": "Hover React components and jump to source in your editor",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Click to Component"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "debugger"],
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Click to Component</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 240px;
+      padding: 14px;
+      font: 13px/1.4 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #111827;
+      background: #fff;
+    }
+
+    h1 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6366f1;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #111827;
+      background: #fff;
+      appearance: auto;
+    }
+
+    select { cursor: pointer; }
+
+    input[type="text"] {
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+    }
+
+    input[type="text"]::placeholder { color: #9ca3af; }
+
+    select:focus, input[type="text"]:focus {
+      outline: 2px solid #6366f1;
+      outline-offset: 1px;
+    }
+
+    .saved {
+      font-size: 10px;
+      color: #6366f1;
+      margin-top: 4px;
+      min-height: 14px;
+    }
+
+    .hint {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #f3f4f6;
+      font-size: 11px;
+      color: #9ca3af;
+      line-height: 1.6;
+    }
+
+    kbd {
+      display: inline-block;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font: 10px ui-monospace, monospace;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click to Component</h1>
+
+  <div class="field">
+    <label for="editor">Editor</label>
+    <select id="editor">
+      <option value="cursor" selected>Cursor</option>
+      <option value="vscode">VS Code</option>
+      <option value="zed">Zed</option>
+      <option value="webstorm">WebStorm</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="projectRoot">Project Root</label>
+    <input type="text" id="projectRoot" placeholder="/Users/you/Dev/my-project" spellcheck="false" />
+    <div class="saved" id="savedMsg"></div>
+  </div>
+
+  <p class="hint">
+    Press <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>C</kbd> to toggle the overlay.<br>
+    <kbd>Esc</kbd> to close the popover or deactivate.
+  </p>
+
+  <script src="popup.js"></script>
+</body>
+</html>
