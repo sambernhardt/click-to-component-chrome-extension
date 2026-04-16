@@ -1,6 +1,6 @@
-# Click to Component
-
 <img src="icons/256.png" width="128" alt="Click to Component icon" />
+
+# Click to Component
 
 A Chrome extension that lets you hover over any React component on a dev page and jump straight to its source in your editor — including host elements like `<div>` and `<span>`, not just component functions.
 
