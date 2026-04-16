@@ -1,5 +1,7 @@
 # Click to Component
 
+<img src="icons/256.png" width="128" alt="Click to Component icon" />
+
 A Chrome extension that lets you hover over any React component on a dev page and jump straight to its source in your editor — including host elements like `<div>` and `<span>`, not just component functions.
 
 Works with React 19, Next.js + Turbopack, and source maps. Zero changes required to your app.
