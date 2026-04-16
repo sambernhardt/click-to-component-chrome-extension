@@ -2,9 +2,9 @@ const select = document.getElementById('editor');
 const rootInput = document.getElementById('projectRoot');
 const savedMsg = document.getElementById('savedMsg');
 
-chrome.storage.sync.get(['editor', 'projectRoot'], (result) => {
+chrome.storage.sync.get(['editor' /*, 'projectRoot' */], (result) => {
   if (result.editor) select.value = result.editor;
-  if (result.projectRoot) rootInput.value = result.projectRoot;
+  // if (result.projectRoot) rootInput.value = result.projectRoot;
 });
 
 select.addEventListener('change', () => {
